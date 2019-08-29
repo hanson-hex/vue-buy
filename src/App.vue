@@ -13,6 +13,7 @@
 
 <script>
 import Cart from './components/Cart'
+import axios from 'axios'
 export default {
   name: 'app',
   components: {
@@ -30,20 +31,18 @@ export default {
       ]
     }
   },
+
+  created () {
+    // axios.get('/api/goods').then(res => {
+    //   this.goods = res.data.list
+    // })
+    // const res = await axios.get('/api/goods')
+    // this.goods = res.data.list
+  },
   methods: {
     addCart (i) {
       const good = this.goods[i]
-      const ret = this.cart.find(v => v.text === good.text)
-      console.log(good, ret)
-      if (ret) {
-        ret.count += 1
-      } else {
-        this.cart.push({
-          ...good,
-          active: true,
-          count: 1
-        })
-      }
+      this.$bus.$emit('addCart', good)
     }
   }
 }
