@@ -1,110 +1,55 @@
+
 <template>
-  <div id="app">
-      <ul>
-          <li v-for="(good, index) in goods" v-bind:key="index">
-              <span>{{good.text}}</span>
-              <span>{{good.price}}</span>
-              <button @click="addCart(index)">添加到购物车</button>
-          </li>
-      </ul>
-      <Cart :name="name" :cart="cart"></Cart>
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
-          <el-form-item label="用户名" prop="name">
-              <el-input  v-model="ruleForm.name"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="pwd">
-              <el-input type="password" v-model="ruleForm.pwd"></el-input>
-          </el-form-item>
-          <el-form-item>
-              <el-button type="primary" @click="submitForm()">提交</el-button>
-          </el-form-item>
-      </el-form>
-      <k-comp @bindclick="handleClick">
-          <strong>
-              学校
-          </strong>
-      </k-comp>
-      <!--<input type="text" v-model="inputText">-->
-      <!--<input type="text" :value="inputText" @input="inputText = $event.target.value">-->
-      <input type="text" :value="inputText" @input="handleInput">
-  </div>
+    <div id="app">
+        <!--<router-view/>-->
+        <keep-alive>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </div>
 </template>
 
 <script>
-import Cart from './components/Cart'
-import KComp from './components/KComp'
-import axios from 'axios'
 export default {
-  name: 'app',
-  provide: {
-    name: 'hello world'
-  },
-  components: {
-    Cart,
-    KComp
-  },
-  data () {
-    return {
-      txt: '',
-      inputText: '',
-      ruleForm: {
-        name: '',
-        pwd: ''
-      },
-      rules: {
-        name: { required: true, message: '请输入名称' },
-        pwd: { required: true, message: '请输入密码' }
-      },
-      name: '测试',
-      cart: [],
-      goods: [
-        {text: '苹果', price: 100},
-        {text: '西瓜', price: 80},
-        {text: '香蕉', price: 60}
-      ]
-    }
-  },
-
-  created () {
-    // axios.get('/api/goods').then(res => {
-    //   this.goods = res.data.list
-    // })
-    // const res = await axios.get('/api/goods')
-    // this.goods = res.data.list
-  },
+  name: 'App',
   methods: {
-    handleInput (e) {
-      console.log('e:', e)
-      this.inputText = e.target.value
-    },
-    handleClick (e) {
-      console.log('e:', e)
-    },
-    submitForm () {
-      this.$refs['ruleForm'].validate(valid => {
-        if (valid) {
-          alert('成功')
-        } else {
-          alert('大兄弟，你数据未完成')
-          return false
-        }
-      })
-    },
-    addCart (i) {
-      const good = this.goods[i]
-      this.$bus.$emit('addCart', good)
-    }
+    // async timeout (ms) {
+    //   await new Promise((resolve) => {
+    //     setTimeout(resolve, ms)
+    //   })
+    // },
+    // async testAsync () {
+    //   console.log('start async')
+    //   await this.timeout(3000)
+    //   console.log('async call')
+    // },
+    // async testAjax () {
+    //   let r = await this.$post('/adc/member/create_device/v/2', {
+    //     apptype: 5
+    //   })
+    //   console.log(r)
+    // },
+    // testObject () {
+    //   var arr1 = ['two', 'three']
+    //   var arr2 = ['one', ...arr1, 'four', 'five']
+    //   console.log(arr2)
+    // }
+  },
+  mounted () {
+    // this.testAsync()
+    // this.testAjax()
+    // this.testObject()
   }
 }
 </script>
-
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    #app{
+        height:100%;
+        width:100%;
+    }
 </style>
+
